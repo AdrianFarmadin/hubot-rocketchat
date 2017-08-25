@@ -1,0 +1,12 @@
+#!/bin/bash -e
+#
+# S2I run script for the 's2i-hubot-rocketchat' image.
+# The run script executes the server that runs your application.
+#
+# For more information see the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+node -e "console.log(JSON.stringify('$EXTERNAL_SCRIPTS'.split(',')))" > external-scripts.json && \
+	npm install $(node -e "console.log('$EXTERNAL_SCRIPTS'.split(',').join(' '))") && \
+	bin/hubot -n $BOT_NAME -a rocketchat
